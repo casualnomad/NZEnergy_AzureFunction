@@ -20,7 +20,7 @@ module.exports = async function (context, myTimer) {
         cloudClient.on("error", function(err){
             console.log("Something went wrong ", err)});
         console.log("Connected to Cloud Redis Database")
-        cloudClient.set(time,"Test - TimerTrigger")
+        cloudClient.set("2:"+time,"Test - TimerTrigger")
         cloudClient.quit()
     }
 };
