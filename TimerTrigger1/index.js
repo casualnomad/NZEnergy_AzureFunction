@@ -1,5 +1,11 @@
-module.exports = async function (context, req) {
-
+module.exports = async function (context, myTimer) {
+    var timeStamp = new Date().toISOString();
+    
+    if (myTimer.isPastDue)
+    {
+        context.log('JavaScript is running late!');
+    }
+    context.log('JavaScript timer trigger function ran!', timeStamp);   
     var today = new Date();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     var Time = time;
@@ -14,8 +20,7 @@ module.exports = async function (context, req) {
         cloudClient.on("error", function(err){
             console.log("Something went wrong ", err)});
         console.log("Connected to Cloud Redis Database")
-        cloudClient.set(time,"Test - HTTP Trigger")
+        cloudClient.set(time,"Test - TimerTrigger")
         cloudClient.quit()
     }
-
-}
+};
