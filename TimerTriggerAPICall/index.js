@@ -19,18 +19,20 @@ module.exports = async function (context, myTimer) {
         let jsonComplete = [];
         let jsonData = [];
         let jsonMetadata = [];
-        let date = moment().tz("Pacific/Auckland").format("YYYY.MM.DD");
-        let time = moment().tz("Pacific/Auckland").format("HH:mm");
-        let corTZ = moment().tz("Pacific/Auckland").format("|TZ");
-        let borkedTime = data['items'][0]['timestamp']
-        borkedTime = borkedTime.slice(0, -1)
-        borkedTime = borkedTime.split('T')
+        //let date = moment().tz("Pacific/Auckland").format("YYYY.MM.DD");
+        //let time = moment().tz("Pacific/Auckland").format("HH:mm");
+        //let corTZ = moment().tz("Pacific/Auckland").format("|TZ");
+        let utzTime = data['items'][0]['timestamp']
+        let displayTime = utzTime.slice(0, -1)
+        displayTime = displayTime.replace("T", "|") 
+        /*
         let timeSplitter = borkedTime[1]
         borkedHour = timeSplitter.split(':')
         if (time >= "12:00"){var hour24 = Number(borkedHour[0]) + 12} else {var hour24 = borkedHour[0]}
         let twentyFourTime = hour24 + ":" + borkedHour[1] + ":" + borkedHour[2]  
         time = twentyFourTime + corTZ
-        jsonMetadata.push({date, time}) 
+        */
+        jsonMetadata.push({date, utzTime}) 
 
         for (var keys of data['items'])
         {
@@ -42,7 +44,7 @@ module.exports = async function (context, myTimer) {
 
         jsonComplete.push({jsonMetadata})
         jsonComplete.push({jsonData})
-        let key = date + "|" + twentyFourTime
+        let key = displayTime
         var json = JSON.stringify(jsonComplete);
 
         databaseEntry(json, key)
