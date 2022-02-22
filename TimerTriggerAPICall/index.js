@@ -1,14 +1,8 @@
 module.exports = async function (context, myTimer) {
+
     var redis = require('redis');
     var fetch = require('cross-fetch');
     var moment = require('moment-timezone');
-    
-    if (myTimer.isPastDue)
-    {
-        context.log('JavaScript is running late!');
-    }
-    context.log('JavaScript timer trigger function ran!', timeStamp);   
-    
     const REDIS_URL = '***REMOVED***'
     const API_URL = "https://api.em6.co.nz/ords/em6/data_api/region/price/"
 
@@ -27,7 +21,7 @@ module.exports = async function (context, myTimer) {
         let jsonMetadata = [];
         let date = moment().tz("Pacific/Auckland").format("YYYY.MM.DD");
         let time = moment().tz("Pacific/Auckland").format("HH:mm");
-        let corTZ = moment().tz("Pacific/Auckland").format("HH:mm|TZ");
+        let corTZ = moment().tz("Pacific/Auckland").format("|TZ");
         let borkedTime = data['items'][0]['timestamp']
         borkedTime = borkedTime.slice(0, -1)
         borkedTime = borkedTime.split('T')
@@ -35,7 +29,8 @@ module.exports = async function (context, myTimer) {
         borkedHour = timeSplitter.split(':')
         if (time >= "12:00"){var hour24 = Number(borkedHour[0]) + 12} else {var hour24 = borkedHour[0]}
         let twentyFourTime = hour24 + ":" + borkedHour[1] + ":" + borkedHour[2]  
-        jsonMetadata.push({date, corTZ}) 
+        time = twentyFourTime + corTZ
+        jsonMetadata.push({date, time}) 
 
         for (var keys of data['items'])
         {
@@ -53,22 +48,21 @@ module.exports = async function (context, myTimer) {
         databaseEntry(json, key)
     }
 
-async function databaseEntry(json,key){
+    async function databaseEntry(json,key){
 
-    let client = redis.createClient({url: REDIS_URL});
-    client.connect()
-    client.on("error", function(err){
-    console.log("Something went wrong ", err)});
-    console.log("Connected to local Redis Database")
-    console.log(key)
-    if (await client.exists(key) == "0"){
-    client.set(key, json)
-    results = "Record Added"
-    }
-        else{results = "Error: Record exists, try again later"}  
-    console.log(results)
-    client.QUIT
-    console.log("Disconnected from Database")
-    }
+        let client = redis.createClient({url: REDIS_URL});
+        client.connect()
+        client.on("error", function(err){
+        console.log("Something went wrong ", err)});
+        console.log("Connected to local Redis Database")
+        console.log(key)
+        if (await client.exists(key) == "0"){
+            client.set(key, json)
+            results = "Record Added"
+        } else {results = "Error: Record exists, try again later"}  
+        console.log(results)
+        client.QUIT
+        console.log("Disconnected from Database")
+        }
 
 };
