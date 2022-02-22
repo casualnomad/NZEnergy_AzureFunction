@@ -11,6 +11,7 @@ module.exports = async function (context, myTimer) {
     async function getapi() {
         const response = await fetch(API_URL);
         let data = await response.json();
+        //testing
         sortData(data) 
     }
 
