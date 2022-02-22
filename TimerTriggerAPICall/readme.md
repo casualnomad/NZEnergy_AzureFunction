@@ -1,6 +1,6 @@
 # TimerTrigger - JavaScript
 
-The `TimerTrigger` makes it incredibly easy to have your functions executed on a schedule. This sample demonstrates a simple use case of calling your function every 5 minutes.
+The `TimerTrigger` makes it incredibly easy to have your functions executed on a schedule. This script demonstrates a simple use case of calling your function every 30 minutes, starting at 15 minutes past the hour. For example, 0115, 0145, 0215, 0245, .......
 
 ## How it works
 
