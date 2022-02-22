@@ -3,7 +3,7 @@ module.exports = async function (context, myTimer) {
     var redis = require('redis');
     var fetch = require('cross-fetch');
     var moment = require('moment-timezone');
-    const REDIS_URL = '***REMOVED***'
+    const REDIS_URL = '*Enter REDIS cloud url here (example: redis://[USERNAME (normally "default")]:[PASSWORD]@[REDIS URL]:[PORT]/0'
     const API_URL = "https://api.em6.co.nz/ords/em6/data_api/region/price/"
 
     getapi();
