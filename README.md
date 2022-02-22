@@ -1,6 +1,6 @@
 # Energy Function App
 
-This is the same as oneof my test private repos but has been cleansed and modified to run with Azure Function App using Timer Triggers. 
+This is the same as one of my test private repos but has been cleansed and modified to run with Azure Function App using Timer Triggers. 
 
 This runs once every 30 minutes,at 15 minutes past the hour.
 
