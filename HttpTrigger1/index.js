@@ -14,7 +14,7 @@ module.exports = async function (context, req) {
         cloudClient.on("error", function(err){
             console.log("Something went wrong ", err)});
         console.log("Connected to Cloud Redis Database")
-        cloudClient.set("1:"+time,"Test - HTTP Trigger")
+        cloudClient.set("HTTPTrigger:"+time,"Test - HTTPTrigger" + today)
         cloudClient.quit()
     }
 
