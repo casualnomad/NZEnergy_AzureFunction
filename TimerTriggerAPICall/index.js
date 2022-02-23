@@ -51,16 +51,20 @@ module.exports = async function (context, myTimer) {
     async function databaseEntry(json,key){
 
         let client = redis.createClient({url: REDIS_URL})
+        let results
         client.connect()
-        client.on("error", function(err){
-        console.log("Something went wrong ", err)})
         console.log("Connected to cloud Redis Database")
+        client.on("error", function(err){
+            console.log("Something went wrong ", err)})
+            
         if (await client.exists(key) == "0"){
-            client.set(key, json)
+            await client.set(key, json)
             results = "Record Added"
-        } else {results = "Error: Record exists, try again later"}  
+        } else 
+            {results = "Error: Record exists, try again later"}  
+
         console.log(results)
-        client.QUIT
+        client.quit()
         console.log("Disconnected from Database")
         }
 
