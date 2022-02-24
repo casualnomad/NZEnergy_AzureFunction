@@ -27,8 +27,8 @@ module.exports = async function (context, myTimer) {
         let jsonMetadata = []
         let utzTime = data['items'][0]['timestamp']
         let nztzTime = moment.tz(utzTime, "Pacific/Auckland").format()
-        let displayTime = utzTime.slice(0, -1)
-        displayTime = displayTime.replace("T", "|") 
+        //let displayTime = utzTime.slice(0, -1)
+        //displayTime = displayTime.replace("T", "|") 
         jsonMetadata.push({"UTCTimestamp" : utzTime}) 
         jsonMetadata.push({"NZSTimestamp" : nztzTime}) 
 
@@ -42,7 +42,7 @@ module.exports = async function (context, myTimer) {
 
         jsonComplete.push({jsonMetadata})
         jsonComplete.push({jsonData})
-        let key = displayTime
+        let key = utzTime
         var json = JSON.stringify(jsonComplete)
 
         databaseEntry(json, key)
